@@ -1,10 +1,10 @@
-# 🧭 Task Tracker CLI
+# Task Tracker CLI
 
 A simple command-line tool to manage your tasks efficiently. Track what you need to do, what you're working on, and what you've completed—all from your terminal.
 
 ---
 
-## 🚀 Features
+## Features
 
 - Add, update, and delete tasks
 - Mark tasks as `todo`, `in-progress`, or `done`
@@ -14,7 +14,7 @@ A simple command-line tool to manage your tasks efficiently. Track what you need
 
 ---
 
-## 📦 Installation
+## Installation
 
 ### 1. Clone the repository
 
@@ -31,27 +31,27 @@ npm link
 This makes the CLI available globally as task-cli.
 ```
 
-## 🛠️ Usage
+## Usage
 
 ### Add a new task
 
 ```bash
 task-cli add "Buy groceries"
-# Output: ✅ Task added successfully (ID: 1)
+# Output: Task added successfully (ID: 1)
 ```
 
 ### Update a task
 
 ```bash
 task-cli update 1 "Buy groceries and cook dinner"
-# Output: ✏️ Task updated successfully
+# Output: Task updated successfully
 ```
 
 ### Delete a task
 
 ```bash
 task-cli delete 1
-# Output: 🗑️ Task deleted successfully
+# Output: Task deleted successfully
 ```
 
 ### Mark task as in-progress or done
@@ -75,7 +75,7 @@ task-cli list in-progress
 task-cli list done
 ```
 
-## 📁 Data Storage
+## Data Storage
 
 Tasks are stored in a local tasks.json file in the current working directory. If the file doesn't exist, it will be created automatically.
 
@@ -87,7 +87,7 @@ Each task includes:
 - createdAt: Timestamp when task was added
 - updatedAt: Timestamp when task was last modified
 
-## 🧯 Error Handling
+## Error Handling
 
 The CLI gracefully handles:
 
@@ -96,7 +96,7 @@ The CLI gracefully handles:
 - Missing arguments
 - Empty task lists
 
-## 🧪 Example Workflow
+## Example Workflow
 
 ```bash
 task-cli add "Write documentation"
@@ -106,7 +106,7 @@ task-cli mark-done 1
 task-cli list done
 ```
 
-## 📌 Notes
+## Notes
 
 - Requires Node.js v14 or higher
 - No external libraries used
