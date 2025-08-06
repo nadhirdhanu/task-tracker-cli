@@ -1,1 +1,30 @@
-[] 
+[
+  {
+    "title": "masak nasi",
+    "done": true
+  },
+  {
+    "title": "cuci baju",
+    "done": true
+  },
+  {
+    "title": "setrika baju",
+    "done": true
+  },
+  {
+    "title": "Masak air",
+    "done": false
+  },
+  {
+    "title": "makan malam",
+    "done": true
+  },
+  {
+    "title": "yoi mamen",
+    "done": false
+  },
+  {
+    "title": "minum air",
+    "done": false
+  }
+]
