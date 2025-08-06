@@ -1,63 +1,120 @@
+#!/usr/bin/env node
+
 const fs = require('fs');
-const readline = require('readline-sync');
+const path = './tasks.json';
+const args = process.argv.slice(2);
 
-const TASKS_FILE = './tasks.json';
+if (!fs.existsSync(path)) fs.writeFileSync(path, '[]');
 
-function loadTasks() {
-    return JSON.parse(fs.readFileSync(TASKS_FILE, 'utf8'));
+const tasks = JSON.parse(fs.readFileSync(path, 'utf8'));
+
+function save() {
+    fs.writeFileSync(path, JSON.stringify(tasks, null, 2));
 }
 
-function saveTasks(tasks) {
-    fs.writeFileSync(TASKS_FILE, JSON.stringify(tasks, null, 2));
+function now() {
+    return new Date().toISOString();
 }
 
-function listTasks(tasks) {
-    if (tasks.length === 0) return console.log('✅ No tasks yet!');
-    tasks.forEach((task, i) => {
-        console.log(`${i + 1}. [${task.done ? 'x' : ' '}] ${task.title}`);
-    });
+function generateId() {
+    return tasks.length ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
 }
 
-function addTask(tasks) {
-    const title = readline.question('Task title: ');
-    tasks.push({ title, done: false });
-    saveTasks(tasks);
-    console.log('✅ Task added!');
-}
+const [command, ...rest] = args;
 
-function markDone(tasks) {
-    listTasks(tasks);
-    const index = readline.questionInt('Mark which task as done (number)? ') - 1;
-    if (tasks[index]) {
-        tasks[index].done = true;
-        saveTasks(tasks);
-        console.log('🎉 Task marked as done!');
-    } else {
-        console.log('❌ Invalid task number.');
-    }
-}
-
-function main() {
-    const tasks = loadTasks();
-    console.log('\n📋 Task Tracker CLI');
-    console.log('1. List tasks');
-    console.log('2. Add task');
-    console.log('3. Mark task as done');
-    console.log('4. Exit');
-
-    const choice = readline.questionInt('\nChoose an option: ');
-
-    switch (choice) {
-        case 1: listTasks(tasks); break;
-        case 2: addTask(tasks); break;
-        case 3: markDone(tasks); break;
-        case 4: console.log('👋 Goodbye!'); return;
-        default: console.log('❌ Invalid choice.');
+switch (command) {
+    case 'add': {
+        const description = rest.join(' ');
+        const task = {
+            id: generateId(),
+            description,
+            status: 'todo',
+            createdAt: now(),
+            updatedAt: now()
+        };
+        tasks.push(task);
+        save();
+        console.log('✅ Task added:', task);
+        break;
     }
 
-    readline.question('\nPress Enter to continue...');
-    console.clear();
-    main(); // Loop again
-}
+    case 'update': {
+        const id = parseInt(rest[0]);
+        const description = rest.slice(1).join(' ');
+        const task = tasks.find(t => t.id === id);
+        if (!task) return console.log('❌ Task not found');
+        task.description = description;
+        task.updatedAt = now();
+        save();
+        console.log('✏️ Task updated:', task);
+        break;
+    }
 
-main();
+    case 'delete': {
+        const id = parseInt(rest[0]);
+        const index = tasks.findIndex(t => t.id === id);
+        if (index === -1) return console.log('❌ Task not found');
+        const removed = tasks.splice(index, 1)[0];
+        save();
+        console.log('🗑️ Task deleted:', removed);
+        break;
+    }
+
+    case 'status': {
+        const id = parseInt(rest[0]);
+        const newStatus = rest[1];
+        if (!['todo', 'in-progress', 'done'].includes(newStatus)) {
+            return console.log('❌ Invalid status');
+        }
+        const task = tasks.find(t => t.id === id);
+        if (!task) return console.log('❌ Task not found');
+        task.status = newStatus;
+        task.updatedAt = now();
+        save();
+        console.log('🔄 Status updated:', task);
+        break;
+    }
+
+    case 'mark-in-progress': {
+        const id = parseInt(rest[0]);
+        const task = tasks.find(t => t.id === id);
+        if (!task) return console.log('❌ Task not found');
+        task.status = 'in-progress';
+        task.updatedAt = now();
+        save();
+        console.log('🔄 Task marked as in-progress');
+        break;
+    }
+
+    case 'mark-done': {
+        const id = parseInt(rest[0]);
+        const task = tasks.find(t => t.id === id);
+        if (!task) return console.log('❌ Task not found');
+        task.status = 'done';
+        task.updatedAt = now();
+        save();
+        console.log('✅ Task marked as done');
+        break;
+    }
+
+
+    case 'list': {
+        const filter = rest[0];
+        const filtered = filter
+            ? tasks.filter(t => t.status === filter)
+            : tasks;
+        if (filtered.length === 0) return console.log('📭 No tasks found');
+        filtered.forEach(t => {
+            console.log(`${t.id}. [${t.status}] ${t.description}`);
+        });
+        break;
+    }
+
+    default:
+        console.log('📘 Commands:');
+        console.log('  add "description"');
+        console.log('  update <id> "new description"');
+        console.log('  delete <id>');
+        console.log('  status <id> <todo|in-progress|done>');
+        console.log('  list [status]');
+}
