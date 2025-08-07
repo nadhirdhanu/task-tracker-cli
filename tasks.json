@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "id": 1754533210957,
+    "description": "makan malam",
+    "status": "todo",
+    "createdAt": "2025-08-07T02:20:10.957Z",
+    "updatedAt": "2025-08-07T02:20:10.957Z",
+    "owner": "user"
+  },
+  {
+    "id": 1754533980793,
+    "description": "",
+    "status": "todo",
+    "createdAt": "2025-08-07T02:33:00.793Z",
+    "updatedAt": "2025-08-07T02:33:00.793Z",
+    "owner": "user"
+  },
+  {
+    "id": 1754534220492,
+    "description": "",
+    "status": "todo",
+    "createdAt": "2025-08-07T02:37:00.492Z",
+    "updatedAt": "2025-08-07T02:37:00.493Z",
+    "owner": "user"
+  },
+  {
+    "id": 1754535564644,
+    "description": "",
+    "status": "todo",
+    "createdAt": "2025-08-07T02:59:24.644Z",
+    "updatedAt": "2025-08-07T02:59:24.644Z"
+  },
+  {
+    "id": 1754535580168,
+    "description": "",
+    "status": "todo",
+    "createdAt": "2025-08-07T02:59:40.169Z",
+    "updatedAt": "2025-08-07T02:59:40.169Z"
+  },
+  {
+    "id": 1754535593457,
+    "description": "",
+    "status": "todo",
+    "createdAt": "2025-08-07T02:59:53.457Z",
+    "updatedAt": "2025-08-07T02:59:53.457Z"
+  }
+]
