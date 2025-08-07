@@ -188,5 +188,3 @@ if (!command || !validCommands.includes(command)) {
     }
     process.exit(1);
 }
-
-
